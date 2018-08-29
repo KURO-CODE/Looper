@@ -2,7 +2,7 @@
 
 ![looper.gif](https://github.com/KURO-CODE/Looper/blob/master/looper.gif)
 
-**Looper 1.0*
+**Looper 1.0**
 
 + Automate FFmpeg. 
 + Video to Mp3

@@ -1,6 +1,6 @@
 # Looper
 
-![looper.gif](https://github.com/KURO-CODE/Looper/blob/master/looper.gif)
+![LOOPER.gif](https://github.com/KURO-CODE/Looper/blob/master/LOOPER.gif)
 
 **Looper 1.0**
 
@@ -20,3 +20,10 @@
 # Prerequisites #
 
 * FFmpeg
+
+# Use # 
+
+1. git clone https://github.com/KURO-CODE/Looper.git
+2. cd Looper
+3. sudo chmod +x Looper.sh
+4. ./Looper.sh

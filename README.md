@@ -3,8 +3,8 @@
 ![LOOPER.gif](https://github.com/KURO-CODE/Looper/blob/master/LOOPER.gif)
 
 **Looper 1.0**
-
-+ Automate FFmpeg. 
+Automate FFmpeg.
++ Video to gif
 + Video to Mp3
 + Screenshot
 + Screenshot and sound

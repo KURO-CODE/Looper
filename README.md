@@ -23,7 +23,7 @@ Automate Multimedia.
 + Video cut
 + Sound off
 + Add sound
-+ Mp3 complie
++ Mp3 compiling
  
 * Date: 9/15/2018
 * Dev: Shell

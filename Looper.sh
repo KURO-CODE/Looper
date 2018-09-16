@@ -15,9 +15,9 @@
 #
 # Type: Multimedia
 # CoDeD: bY KURO-CODE
-# DaTe: 8/29/2018
+# DaTe: 9/15/2018
 # Dev: Bash
-# Ver: 1.0
+# Ver: 1.1
 #
 #~~~~~~~~~~~~~~~~~ INFO ~~~~~~~~~~~~~~~~~~~~
 #
@@ -29,15 +29,18 @@
 #   + Screenshot and sound
 #   + Video cut
 #   + Sound off
-#   + Add sound 
+#   + Add sound
+#   + Mp3 compiling 
 #
 #     *** Requirements ***
 #   - FFmpeg
+#   - Mp3Wrap
 #
 #********************************************
 
 #**** Version ****
-Ver="1.0"
+Ver="1.1"
+DATE="9/15/2018"
 
 #**** Colors ****
 W="\033[1;37m"
@@ -59,7 +62,7 @@ ${Y}  :::         ...         ...   ::::::::::. .,:::::: :::::::..
   $\$'     $\$$,     $\$$\$$\$,     $\$$ $\$$\"\"     $\$\"\"\"\"   $\$$\$$$c    
  o88oo,.__\"888,_ _,88P\"888,_ _,88P 888o      888oo,__ 888b \"88bo,
  \"\"\"\"YUMMM  \"YMMMMMP\"   \"YMMMMMP\"  YMMMb     \"\"\"\"YUMMMMMMM   \"W\"\"
-            ${G} FFmpeg Automate${W} By${R} Kuro${W}-${R}Code${Y} Version${W}: $Ver\n"
+          ${G} Multimedia Automate${W} By${R} Kuro${W}-${R}Code${Y} Version${W}: $Ver\n"
 }
 
 #~~~~ Menus ~~~~
@@ -68,14 +71,14 @@ function Main() {
 	clear
 	LOGO
 	echo -e "${W}
-	 [ M A I N  M E N U ] 
+	  [ M A I N  M E N U ] 
 
    [1]${G} Video To Gif${W}     [5]${G} Screenshot${W}
    [2]${G} Video To MP3${W}     [6]${G} Screenshot + sound${W}
    [3]${G} Video Cut${W}        [7]${G} Add Sound${W}
-   [4]${G} Sound Off${W}        [${Y}9${W}]${Y} Info${W}
-
-   [${R}0${W}]${R} Exit${EC}\n"
+   [4]${G} Sound Off${W}        [8]${G} MP3 Compiling${W}
+   
+   	 [${R}0${W}]${R} Exit${EC}     [${Y}9${W}]${Y} Info${W}\n"
 	read -p " Select: " OPT
 	case $OPT in 
 		1) Video_To_Gif;;
@@ -85,11 +88,13 @@ function Main() {
 		5) Screenshot;;
 		6) Screenshot;;
 		7) Add_Sound;;
+		8) Mp3_Compile;;
 		9) INFO;;
 		0) EXIT;;
 	esac
 }
 
+#~~~~ Video to Gif ~~~~
 function Video_To_Gif() {
 	Place="Video_To_Gif"
 	clear
@@ -123,6 +128,7 @@ function Video_To_Gif() {
 	Main
 }
 
+#~~~~ Video to MP3 ~~~~
 function Video_To_MP3() {
 	Place="Video_To_MP3"
 	clear
@@ -142,6 +148,7 @@ function Video_To_MP3() {
 	Main
 }
 
+#~~~~ Video Cut ~~~~
 function Video_Cut() {
 	Place="Video_Cut"
 	clear
@@ -172,6 +179,7 @@ function Video_Cut() {
 	Main
 }
 
+#~~~~ Sound Off ~~~~
 function Sound_Off() {
 	Place="Sound_Off"
 	clear
@@ -189,6 +197,7 @@ function Sound_Off() {
 	Main
 }
 
+#~~~~ Add Sound ~~~~
 function Add_Sound() {
 	Place="Add_Sound"
 	clear
@@ -211,8 +220,8 @@ function Add_Sound() {
 	clear
 	LOGO
 	echo -e "${Y} Output file, Example${W}:${Y} Video.mp4${W}"
-	read -p " Output: " VSOUT
-	VOUT="NewVideo.mp4"
+	read -p " Output: " VOUT
+	VSOUT="NewVideo.mp4"
 	VCut
 }
 
@@ -224,19 +233,20 @@ function VCut() {
 		LOGO
 		echo -e "${W} [${Y}!${W}]${G} Recording Completed${W} [${Y}!${W}]"
 		sleep 3
-#		Main
-	elif [ "$OPT" -eq "7" ]; then
-		xterm -T "Video Cut" -geometry 70x06+0+0 -e "$FFMPG -i $FVideo -ss $Start_Timer -t $A -c:v copy -c:a copy  $VOUT"
+		Main
+	fi
+	if [ "$OPT" -eq "7" ]; then
+		xterm -T "Video Cut" -geometry 70x06+0+0 -e "$FFMPG -i $FVideo -ss $Start_Timer -t $A -c:v copy -c:a copy  $VSOUT"
+		Kill
+		sleep 3
+		Add
+		Kill
+		rm -f $VSOUT
+		rm -f $SCRIPT
 		clear
 		LOGO
 		echo -e "${W} [${Y}!${W}]${G} Recording Completed${W} [${Y}!${W}]"
 		sleep 3
-		Kill &&
-		sleep 3
-		Add
-		Kill
-		rm -f $VOUT
-		rm -f $SCRIPT
 		Main
 	fi
 }
@@ -246,6 +256,7 @@ function OFF() {
 	xterm -T "Sound Off" -geometry 70x06+0+0 -e "$FFMPG -i $FVideo -c copy -an $OUT"
 }
 
+#~~~~ Screenshot ~~~~
 function Screenshot() {
 	Place="Screenshot"
 	SR=`xdpyinfo | grep dimensions |awk '{print $2}'`
@@ -253,7 +264,7 @@ function Screenshot() {
 		clear
 		LOGO
 		echo -e "${W} [${Y}!${W}]${G} Screenshot Window${W}:${R} Stop Recording${W}: [${G}Ctrl+C${W}]"
-		xterm -T "Screenshot" -geometry 70x06+0+0 -e "$FFMPG -f x11grab -r 30 -s $SR -i :0.0 -vcodec libx264 out.mkv" 
+		xterm -T "Screenshot" -geometry 70x06+0+0 -e "$FFMPG -f x11grab -r 30 -s $SR -i :0.0 -vcodec libx264 Screenshot.mkv" 
 		clear
 		LOGO
 		echo -e "${W} [${Y}!${W}]${G} Recording Completed${W} [${Y}!${W}]"
@@ -263,13 +274,40 @@ function Screenshot() {
 		clear
 		LOGO
 		echo -e "${W} [${Y}!${W}]${G} Screenshot Window${W}:${R} Stop Recording${W}: [${G}Ctrl+C${W}]"
-		xterm -T "Screenshot + Sound" -geometry 70x06+0+0 -e "$FFMPG -f alsa -ac 2 -i pulse -f x11grab -r 30 -s  $SR -i :0.0 -acodec pcm_s16le -vcodec libx264 bureau.mkv" 
+		xterm -T "Screenshot + Sound" -geometry 70x06+0+0 -e "$FFMPG -f alsa -ac 2 -i pulse -f x11grab -r 30 -s  $SR -i :0.0 -acodec pcm_s16le -vcodec libx264 ScreenshotSound.mkv" 
 		clear
 		LOGO
 		echo -e "${W} [${Y}!${W}]${G} Recording Completed${W} [${Y}!${W}]"
 		sleep 3
 		Main
 	fi
+}
+
+#~~~~ Compiling ~~~~
+function Mp3_Compile() {
+	Place="Mp3_Compile"
+	clear
+	LOGO
+	read -p " Folder: " Folder
+	clear
+	LOGO
+	read -p " Output name: " OUT
+	clear
+	LOGO
+	echo -e "${W} [${Y}!${W}]${G} Process in progress, please wait${W} [${Y}!${W}]"
+	Compilation
+	Kill
+	NoTag
+	Kill
+	rm -f ${OUT}_MP3WRAP.mp3
+	Bitrate
+	Kill
+	clear
+	LOGO
+	echo -e "${W} [${Y}!${W}]${G} Compiling Completed${W} [${Y}!${W}]"
+	rm -f No_Tags.mp3
+	sleep 3
+	Main
 }
 
 #~~~~ Automation ~~~~
@@ -283,10 +321,10 @@ function Sound_Extract() {
 
 #~~~~ Add Sound ~~~~
 function Add() {
-	xterm -T "Insertion" -geometry 70x06+0+0 -e "$FFMPG -i $VOUT -i $FAudio -c copy -map 0:0 -map 1:0 $VSOUT"
+	xterm -T "Insertion" -geometry 70x06+0+0 -e "$FFMPG -i $VSOUT -i $FAudio -c copy -map 0:0 -map 1:0 $VOUT"
 }
 
-#~~~~ Check ~~~~
+#~~~~ Check Files ~~~~
 function Check_Video_File() {
 	if [ ! -f "$FVideo" ]; then
 	    echo -e " [${R}x${W}]$GR...$R""N$W""ot Exist$EC"
@@ -303,6 +341,7 @@ function Check_Audio_File() {
 	fi
 }
 
+#~~~~ Check Dep ~~~~
 function Check_Dep() {
 	clear
 	LOGO
@@ -314,7 +353,16 @@ function Check_Dep() {
 		echo -e "[${G}✔${W}]${EC}"
 	fi
 	sleep 0.25
-	echo -ne "Xterm....."
+	echo -ne "Mp3Wrap...."
+	if ! hash mp3wrap 2>/dev/null; then
+		echo -e "Not installed [${R}x${W}]${EC}"
+		sleep 3
+		EXIT
+	else
+		echo -e "[${G}✔${W}]${EC}"
+	fi
+	sleep 0.25
+	echo -ne "Xterm......"
 	if ! hash xterm 2>/dev/null; then
 		echo -e "Not installed [${R}x${W}]${EC}"
 		sleep 3
@@ -325,14 +373,28 @@ function Check_Dep() {
 	sleep 3
 }
 
+#~~~~ Check Time ~~~~
 function CHECKER_Video() {
-
 		V=`perl $SCRIPT $FVideo | grep duration: |awk '{print $2}' |sed 's/increasing/ /g'`
 }
 
 function CHECKER_Audio() {
-
 		A=`perl $SCRIPT $FAudio |grep duration: |awk '{print $2}'`
+}
+
+#~~~~ Compiling ~~~~
+function Compilation() {
+	xterm -T "Compiling" -geometry 70x06+0+0 -e "mp3wrap $OUT.mp3 $Folder/*.mp3"
+}
+
+#~~~~ NoTag ~~~~
+function NoTag() {
+	xterm -T "No Tag" -geometry 70x02+0+0 -e "ffmpeg -i ${OUT}_MP3WRAP.mp3 -map 0:a -map_metadata -1 No_Tags.mp3"
+}
+
+#~~~~ Bitrate ~~~~
+function Bitrate() {
+	xterm -T "Bitrate" -geometry 70x02+0+0 -e "ffmpeg -i No_Tags.mp3 -vn -ar 44100 -ac 2 -ab 192k -f mp3 $OUT.mp3"
 }
 #~~~~ Kill ~~~~
 function Kill() {
@@ -399,9 +461,9 @@ function INFO() {
 ${W}    ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
     ┃                           ┃
     ┃${G}   Name${W}: Looper            ┃
-    ┃${G}   Date${W}: 8/29/2018         ┃
-    ┃${G}   Type${W}: FFmpeg automate   ┃
-    ┃${G}   Dev${W}: Bash               ┃
+    ┃${G}   Date${W}: $DATE         ┃
+    ┃${G}   Type${W}: Multimedia        ┃
+    ┃${G}   Dev${W}: Shell              ┃
     ┃${G}   Ver${W}: $Ver                ┃
     ┃${G}   Coder${W}: Kuro-Code        ┃
     ┃                           ┃
@@ -426,8 +488,7 @@ function EXIT() {
 	else
 		rm -f $SCRIPT
 		EXIT
-	fi
-		
+	fi		
 }
 
 #~~~~ Hard Exit ~~~~
@@ -440,6 +501,7 @@ function cap_traps() {
 		"Video_Cut") EXIT;;
 		"Sound_Off") EXIT;;
 		"Add_Sound") EXIT;;
+		"Mp3_Compile") EXIT;;
 		"INFO") EXIT;;
 	esac 
 }
@@ -451,4 +513,4 @@ done
 
 #~~~~ START ~~~~
 Check_Dep
-Main 
+Main  

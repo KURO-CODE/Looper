@@ -1,4 +1,4 @@
-# Looper
+# Looper ![](https://img.shields.io/badge/Looper-Shell-green.svg)
 
 ![Looper111.gif](https://github.com/KURO-CODE/Looper/blob/master/Looper111.gif)
 

@@ -36,8 +36,9 @@ Automate Multimedia.
 * Mp3Wrap
 
 # Use # 
-
-1. git clone https://github.com/KURO-CODE/Looper.git
-2. cd Looper
-3. sudo chmod +x Looper.sh
-4. ./Looper.sh
+```
+git clone https://github.com/KURO-CODE/Looper.git
+cd Looper
+sudo chmod +x Looper.sh
+./Looper.sh
+```
